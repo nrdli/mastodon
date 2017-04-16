@@ -889,6 +889,11 @@ a.status__content__spoiler-link {
       padding-right: 10px;
     }
   }
+
+  .column {
+    flex-grow: 1;
+    max-width: 600px; // This is just a guess at a sane max value
+  }
 }
 
 @media screen and (min-width: 2560px) {
@@ -901,6 +906,11 @@ a.status__content__spoiler-link {
     border-radius: 4px;
     height: 90vh;
     margin-top: 5vh;
+  }
+
+  .column {
+    flex-grow: 1;
+    max-width: 600px; // This is just a guess at a sane max value
   }
 }
 
