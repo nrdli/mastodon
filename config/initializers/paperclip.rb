@@ -44,3 +44,23 @@ else
   Paperclip::Attachment.default_options[:path] = (ENV['PAPERCLIP_ROOT_PATH'] || ':rails_root/public/system') + '/:class/:attachment/:id_partition/:style/:filename'
   Paperclip::Attachment.default_options[:url]  = (ENV['PAPERCLIP_ROOT_URL'] || '/system') + '/:class/:attachment/:id_partition/:style/:filename'
 end
+
+if ENV['GCS_ENABLED'] == 'true'
+  Paperclip::Attachment.default_options.update({
+    :path => "images/:class/:id/:attachment/:style/img_:fingerprint",
+    :storage => :fog,
+    :fog_credentials => {
+      :provider                         => 'Google',
+      :google_storage_access_key_id     => ENV.fetch('GCS_ACCESS_KEY_ID'),
+      :google_storage_secret_access_key => ENV.fetch('GCS_SECRET_ACCESS_KEY'),
+      :path_style                       => !ENV['GCS_ALIAS_HOST'].blank?
+    },
+    :fog_directory => ENV.fetch('GCS_BUCKET'),
+    :fog_public => true,
+    :fog_host => 'https://' + ENV.fetch('GCS_BUCKET'),
+  })
+
+  unless ENV['GCS_ALIAS_HOST'].blank?
+    Paperclip::Attachment.default_options[:url] = ENV['GCS_ALIAS_HOST']
+  end
+end
