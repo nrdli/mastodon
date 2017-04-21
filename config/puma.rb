@@ -1,7 +1,7 @@
 threads_count = ENV.fetch('MAX_THREADS') { 5 }.to_i
 threads threads_count, threads_count
 
-bind        ENV.fetch('PORT') { '/home/mastodon/live/rails.sock' }
+bind        ENV.fetch('PORT') { 'unix:/home/mastodon/live/web.sock' }
 environment ENV.fetch('RAILS_ENV') { 'development' }
 workers     ENV.fetch('WEB_CONCURRENCY') { 2 }
 
